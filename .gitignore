@@ -1,0 +1,41 @@
+# Numerous always-ignore extensions
+*.bak
+*.diff
+*.err
+*.exe
+*.log
+*.orig
+*.rej
+*.sass-cacheTests
+*.swo
+*.swp
+*.vi
+*~
+
+# OS or Editor folders
+*.sublime-grunt.cacheTests
+*.sublime-project
+*.sublime-workspace
+._*
+.cacheTests
+.DS_Store
+.project
+.settings
+.tmproj
+Thumbs.db
+
+# Folders to ignore
+.CVS
+.git
+.hg
+.idea
+.svn
+bower_components
+
+# Node.JS
+node_modules
+npm-debug.log
+
+# Private keys and passwords
+.env
+cloudfront-privat-key.pem
