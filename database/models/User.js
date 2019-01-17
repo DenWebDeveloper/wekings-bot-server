@@ -1,6 +1,7 @@
-const {Model} = require('objection')
+const { Model} = require('objection')
+const GlobalOptions = require('./GlobalOptions')
 
-class User extends Model {
+class User extends GlobalOptions {
     static get tableName() {
         return 'users'
     }
@@ -8,7 +9,7 @@ class User extends Model {
     static get relationMappings() {
         return {
             bots: {
-                relation: Model.HasManyRelation,
+                relation: Model.ManyToManyRelation,
                 modelClass: `${__dirname}/Bot`,
                 join: {
                     from: 'users.id',

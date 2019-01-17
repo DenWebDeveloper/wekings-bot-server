@@ -1,6 +1,8 @@
 const Joi = require('joi')
 
 module.exports = (schema, type = 'body') => (ctx, next) => {
+    if (!('valid' in ctx)) ctx.valid = {}
+
     let data
     switch (type) {
         case 'params': {
@@ -13,17 +15,23 @@ module.exports = (schema, type = 'body') => (ctx, next) => {
         }
         case 'body': {
             data = ctx.request.body
+            break
+        }
+        default: {
+            throw new Error('type not found')
         }
     }
     const result = Joi.validate(data, schema, {convert: true})
-    console.log(result.error)
 
     if (result.error !== null) {
         ctx.status = 400
-        return ctx.body = 'Не вірнні дані. Не проходить валідацію'
+        return ctx.body = {
+            message: 'Не вірнні дані. Не проходить валідацію',
+            error: result.error
+        }
     }
     return result.then(result => {
-        ctx.validData = result
+        ctx.valid[type] = result
         return next()
     })
 }

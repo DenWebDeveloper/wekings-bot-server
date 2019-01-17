@@ -1,6 +1,7 @@
-const {Model} = require('objection')
+const { Model} = require('objection')
+const GlobalOptions = require('./GlobalOptions')
 
-class UserBot extends Model {
+class UserBot extends GlobalOptions {
     static get tableName() {
         return 'users_bots'
     }

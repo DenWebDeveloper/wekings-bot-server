@@ -1,14 +1,15 @@
 const passport = require('koa-passport')
+const dbQueries = require('./dbQueries')
 
 module.exports = {
     async login(ctx) {
+        //TODO add captcha
         return await passport.authenticate('local',
             async (err, user) => {
                 if (user) {
                     await ctx.login(user)
                     ctx.body = {
-                        ...getStatus(ctx),
-                        user: ctx.state.user
+                        user
                     }
                 } else {
                     ctx.status = 401
@@ -22,7 +23,7 @@ module.exports = {
 
     async logout(ctx) {
         ctx.logout()
-        ctx.body = {message: 'User logout'}
+        return ctx.body = {message: 'User logout'}
     },
 
     async isAuthenticated(ctx, next) {
@@ -40,29 +41,8 @@ module.exports = {
     },
 
     async registration(ctx) {
-        const form = ctx.request.body
-
-        const schema = schemaRegistration(form.password)
-
-        const result = Joi.validate(form, schema)
-
-        if (result.error !== null) {
-            ctx.status = 422
-            return ctx.body = result.error
-        }
-
-        const pharmacy = await Pharmacy.query()
-            .where('id', form.pharmacy_id)
-            .where('region_id', form.region_id)
-            .where('city_id', form.city_id)
-            .where('network_id', form.network_id)
-            .select('id', 'name')
-        if (pharmacy.length === 0) {
-            ctx.status = 422
-            return ctx.body = 'Pharmacy not found'
-        }
-
-        await User.createPharmacist(form)
+        const {body} = ctx.valid
+        await dbQueries.createUser(body)
 
         //await confirmEmail(form.email) //TODO done send email
 
@@ -71,9 +51,14 @@ module.exports = {
     },
 
     getStatus(ctx) {
-        if (!ctx.isAuthenticated()) {
+        if (ctx.isAuthenticated()) {
             return ctx.body = {
-                isAuth: false,
+                isAuth: true,
+                isAdmin: ctx.state.user.isAdmin
+            }
+        } else {
+            return ctx.body = {
+                isAuth: false
             }
         }
     }

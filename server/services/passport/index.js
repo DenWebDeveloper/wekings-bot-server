@@ -12,12 +12,8 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     User.query()
+        .eager('bots')
         .findById(id)
-        .select(`users_${roleName}.*`, `users_${roleName}.id as users_${roleName}_id`, 'users.email', 'roles.name as role_name', 'users.id as user_id')
-        .join('roles', 'users.role_id', 'roles.id')
-        .join('users_gables', 'users.id', 'users_gables.user_id')
-        .join(`users_${roleName}`, `users_gables.${roleName}_id`, `users_${roleName}.id`)
-        .first()
         .then(user => {
             if (!user) return done(null, false)
             done(null, user)
@@ -40,10 +36,9 @@ passport.use(new LocalStrategy({
         })
         .first()
         .then(user => {
-            console.log(user)
-            if (!user) return done(null, false)
+                if (!user) return done(null, false)
 
-            if (checkPassword(password, user.password_hash)) {
+            if (checkPassword(password, user.passwordHash)) {
                 return done(null, user)
             } else {
                 return done(null, false)

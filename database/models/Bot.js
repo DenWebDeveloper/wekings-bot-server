@@ -1,21 +1,13 @@
-const {Model} = require('objection')
+const {snakeCaseMappers} = require('objection')
+const GlobalOptions = require('./GlobalOptions')
 
-class Bot extends Model {
+class Bot extends GlobalOptions {
     static get tableName() {
-        return 'users_bots'
+        return 'bots'
     }
 
-    static get relationMappings() {
-        return {
-            file: {
-                relation: Model.BelongsToOneRelation,
-                modelClass: File,
-                join: {
-                    from: 'files_courses.file_id',
-                    to: 'files.id'
-                },
-            }
-        }
+    static get columnNameMappers() {
+        return snakeCaseMappers()
     }
 }
 
