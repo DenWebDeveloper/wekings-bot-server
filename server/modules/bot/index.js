@@ -4,6 +4,7 @@ const router = new Router({
 })
 const controller = require('./controller')
 
+router.get('/', controller.getBots)
 router.get('/captcha',  controller.getCaptcha)
 router.post('/add',  controller.addBot)
 

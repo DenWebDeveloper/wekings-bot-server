@@ -13,6 +13,8 @@ exports.up = async knex => {
         table.text('name').notNullable()
         table.text('wk_session').notNullable()
         table.string('remember_token').notNullable()
+        //TODO ask about the field
+        // table.boolean('is_bot_on').defaultTo(true)
         //TODO others fields parameters bots
     })
 

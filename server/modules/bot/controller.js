@@ -2,6 +2,10 @@ const WeBot = require('../../services/bot')
 const dbQueries = require('./dbQueries')
 
 module.exports = {
+    async getBots (ctx) {
+        ctx.body = 'get data test'
+    },
+
     async getCaptcha(ctx) {
         const {wkSession, img} = await WeBot.login.getCaptcha()
         ctx.session.wkSession = wkSession
