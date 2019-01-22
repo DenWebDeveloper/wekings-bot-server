@@ -1,10 +1,12 @@
 const Koa = require('koa')
 const Router = require('koa-router')
+const serve = require('koa-static')
 
 const app = new Koa()
 const router = new Router()
 
 const routes = require('./modules')
+const staticRoutes = require('./modules/static')
 
 require('./database')
 require('./services/passport')
@@ -16,6 +18,8 @@ require('./middlewares/bodyParser')(app)
 require('./middlewares/cors')(app)
 require('./middlewares/passport')(app)
 require('./middlewares/helmet')(app)
+
+app.use(serve(__dirname + '/modules/static/dist'))
 
 app.use(async (ctx, next) => {
     try {
@@ -29,6 +33,8 @@ app.use(async (ctx, next) => {
 
 app.use(routes.routes())
 app.use(router.allowedMethods())
+app.use(staticRoutes.routes())
+
 
 app.on('error', err => {
     console.log(err)
