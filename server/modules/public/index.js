@@ -1,10 +1,10 @@
 const Router = require('koa-router')
 const router = new Router({
-    prefix: '/admin'
+    prefix: '/public'
 })
 
-const users= require('./users')
+const auth = require('./auth')
 
-router.use(users.routes())
+router.use(auth.routes())
 
 module.exports = router

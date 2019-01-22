@@ -1,25 +1,18 @@
-const transaction = require('objection').transaction
-const {Bot, UserBot} = require('../../../database/models')
-const knex = Bot.knex()
+const {Bot} = require('../../database/models')
 
 class Queries {
-    static async addBot({cookie, user, botName}) {
-        await transaction(knex, async trx => {
-            const bot = await Bot
-                .query(trx)
-                .insert({
-                    name: botName,
-                    wkSession: cookie['_wk_session'],
-                    rememberToken: cookie['remember_token']
-                }).returning('*')
+    static async getBots(idUser) {
+        return Bot.query().where({user_id: idUser})
+    }
 
-            await UserBot
-                .query(trx)
-                .insert({
-                    userId: user.id,
-                    botId: bot.id
-                })
-        })
+    static async addBot({cookie, user, botName}) {
+        await Bot.query()
+            .insert({
+                name: botName,
+                userId: user.id,
+                wkSession: cookie['_wk_session'],
+                rememberToken: cookie['remember_token']
+            }).returning('*')
     }
 }
 

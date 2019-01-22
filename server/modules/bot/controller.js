@@ -3,7 +3,8 @@ const dbQueries = require('./dbQueries')
 
 module.exports = {
     async getBots (ctx) {
-        ctx.body = 'get data test'
+        const {id} = ctx.state.user
+        ctx.body = await dbQueries.getBots(id)
     },
 
     async getCaptcha(ctx) {

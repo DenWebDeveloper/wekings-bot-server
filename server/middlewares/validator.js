@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-module.exports = (schema, type = 'body') => (ctx, next) => {
+module.exports = (schema, type) => (ctx, next) => {
     if (!('valid' in ctx)) ctx.valid = {}
 
     let data

@@ -26,20 +26,6 @@ module.exports = {
         return ctx.body = {message: 'User logout'}
     },
 
-    async isAuthenticated(ctx, next) {
-        if (!ctx.isAuthenticated()) {
-            ctx.status = 401
-            return ctx.body = {message: 'Authenticate fail'}
-        }
-        return next()
-    },
-
-    async checkStatus(ctx, next) {
-        //console.log('email', ctx.state.user.pharmacist.confirm_email)
-        //console.log('admin', ctx.state.user.pharmacist.confirm_admin)
-        return next()
-    },
-
     async registration(ctx) {
         const {body} = ctx.valid
         await dbQueries.createUser(body)
@@ -58,7 +44,8 @@ module.exports = {
             }
         } else {
             return ctx.body = {
-                isAuth: false
+                isAuth: false,
+                isAdmin: false
             }
         }
     }

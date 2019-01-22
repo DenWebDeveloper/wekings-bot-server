@@ -5,7 +5,7 @@ const router = new Router({
 
 const controller = require('./controller')
 
-const validator = require('../../middlewares/validator')
+const validator = require('../../../middlewares/validator')
 const {registration,login} = require('./validationScheme')
 
 router.get('/status', controller.getStatus)

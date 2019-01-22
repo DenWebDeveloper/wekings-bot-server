@@ -6,7 +6,7 @@ const router = new Router()
 
 const routes = require('./modules')
 
-require('../database')
+require('./database')
 require('./services/passport')
 
 ///middlewares
@@ -32,7 +32,6 @@ app.use(router.allowedMethods())
 
 app.on('error', err => {
     console.log(err)
-    console.log('Koa errors')
 })
 
 app.listen(process.env.PORT || 7777)

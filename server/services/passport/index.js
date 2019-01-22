@@ -1,7 +1,7 @@
 const passport = require('koa-passport')
 const LocalStrategy = require('passport-local')
 
-const {User} = require('../../../database/models')
+const {User} = require('../../database/models')
 
 const {checkPassword} = require('../authPassword')
 
@@ -12,7 +12,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     User.query()
-        .eager('bots')
         .findById(id)
         .then(user => {
             if (!user) return done(null, false)
@@ -30,13 +29,12 @@ passport.use(new LocalStrategy({
 },
 (req, email, password, done) => {
     User.query()
-        .eager('bots')
         .where({
             email,
         })
         .first()
         .then(user => {
-                if (!user) return done(null, false)
+            if (!user) return done(null, false)
 
             if (checkPassword(password, user.passwordHash)) {
                 return done(null, user)

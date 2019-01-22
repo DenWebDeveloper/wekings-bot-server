@@ -1,5 +1,5 @@
-const {User} = require('../../../database/models')
-const {cryptoPassword} = require('../../untils/password')
+const {User} = require('../../../database/models/index')
+const {cryptoPassword} = require('../../../untils/password')
 
 class Queries {
     static async createUser(body) {
