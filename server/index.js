@@ -33,7 +33,7 @@ app.use(async (ctx, next) => {
 
 app.use(routes.routes())
 app.use(router.allowedMethods())
-app.use(staticRoutes.routes())
+// app.use(staticRoutes.routes())
 
 
 app.on('error', err => {

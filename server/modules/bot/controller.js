@@ -7,6 +7,42 @@ module.exports = {
         ctx.body = await dbQueries.getBots(id)
     },
 
+    async getGifts (ctx) {
+        const {idBot} = ctx.params
+        ctx.body = await dbQueries.getGifts(idBot)
+    },
+
+    async editGifts (ctx) {
+        // const {id} = ctx.state.user
+        const {idBot} = ctx.params
+        // const id = 2;
+        // const idBot = 1;
+        const gifts = ctx.request.body
+        ctx.body = await dbQueries.editGifts(idBot, gifts)
+    },
+
+    async getCurses (ctx) {
+      const {idBot} = ctx.params
+      ctx.body = await dbQueries.getCurses(idBot)
+    },
+
+    async editCurses (ctx) {
+      const {idBot} = ctx.params
+      const curses = ctx.request.body
+      ctx.body = await dbQueries.editCurses(idBot, curses)
+    },
+
+    async getChanceToMine (ctx) {
+        const {idBot} = ctx.params
+        ctx.body = await dbQueries.getChanceToMine(idBot)
+    },
+
+    async editChanceToMine (ctx) {
+        const {idBot} = ctx.params
+        const chanceToMine = ctx.request.body
+        ctx.body = await dbQueries.editChanceToMine(idBot, chanceToMine)
+    },
+
     async getCaptcha(ctx) {
         const {wkSession, img} = await WeBot.login.getCaptcha()
         ctx.session.wkSession = wkSession

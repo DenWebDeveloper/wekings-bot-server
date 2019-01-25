@@ -15,13 +15,18 @@ exports.up = async knex => {
         table.integer('user_id').references('users.id').unique().notNullable()
         table.text('wk_session').notNullable()
         table.string('remember_token').notNullable()
+        table.jsonb('gifts').defaultTo(null)
         //TODO ask about the field
+        table.boolean('is_gifts_on').defaultTo(true)
+        table.boolean('is_curses_on').defaultTo(true)
+        table.jsonb('curses').defaultTo(null)
+        table.integer('chance_to_mine').defaultTo(15)
         // table.boolean('is_bot_on').defaultTo(true)
         //TODO others fields parameters bots
     })
 }
 
 exports.down = async knex => {
-    await knex.schema.dropTable('users')
     await knex.schema.dropTable('bots')
+    await knex.schema.dropTable('users')
 }

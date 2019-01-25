@@ -1,6 +1,6 @@
 const knex = require('knex')
 //process.env.NODE_ENV.trim()
-const connection = require('../../knexfile')['production']
+const connection = require('../../knexfile')[process.env.NODE_ENV.trim()]
 
 const {Model} = require('objection')
 
