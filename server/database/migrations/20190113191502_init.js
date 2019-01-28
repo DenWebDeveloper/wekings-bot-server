@@ -24,9 +24,29 @@ exports.up = async knex => {
         // table.boolean('is_bot_on').defaultTo(true)
         //TODO others fields parameters bots
     })
+
+    await knex.schema.createTable('gifts', table => {
+        table.increments('id').primary()
+        table.string('url_name').notNullable()
+        table.integer('level').notNullable()
+        table.integer('silver_price').notNullable()
+        table.integer('crystal_price').notNullable()
+        table.integer('page').notNullable()
+    })
+
+    await knex.schema.createTable('curses', table => {
+        table.increments('id').primary()
+        table.string('url_name').notNullable()
+        table.integer('level').notNullable()
+        table.integer('silver_price').notNullable()
+        table.integer('crystal_price').notNullable()
+        table.integer('page').notNullable()
+    })
 }
 
 exports.down = async knex => {
     await knex.schema.dropTable('bots')
     await knex.schema.dropTable('users')
+    await knex.schema.dropTable('gifts')
+    await knex.schema.dropTable('curses')
 }
