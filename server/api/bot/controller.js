@@ -1,18 +1,19 @@
 const WeBot = require('../../services/bot')
+const WeInfo = require('../../services/bot').WeInfo
 const dbQueries = require('./dbQueries')
 
 module.exports = {
-    async getBots (ctx) {
+    async getBots(ctx) {
         const {id} = ctx.state.user
         ctx.body = await dbQueries.getBots(id)
     },
 
-    async getGifts (ctx) {
+    async getGifts(ctx) {
         const {idBot} = ctx.params
         ctx.body = await dbQueries.getGifts(idBot)
     },
 
-    async editGifts (ctx) {
+    async editGifts(ctx) {
         // const {id} = ctx.state.user
         const {idBot} = ctx.params
         // const id = 2;
@@ -21,23 +22,23 @@ module.exports = {
         ctx.body = await dbQueries.editGifts(idBot, gifts)
     },
 
-    async getCurses (ctx) {
-      const {idBot} = ctx.params
-      ctx.body = await dbQueries.getCurses(idBot)
+    async getCurses(ctx) {
+        const {idBot} = ctx.params
+        ctx.body = await dbQueries.getCurses(idBot)
     },
 
-    async editCurses (ctx) {
-      const {idBot} = ctx.params
-      const curses = ctx.request.body
-      ctx.body = await dbQueries.editCurses(idBot, curses)
+    async editCurses(ctx) {
+        const {idBot} = ctx.params
+        const curses = ctx.request.body
+        ctx.body = await dbQueries.editCurses(idBot, curses)
     },
 
-    async getChanceToMine (ctx) {
+    async getChanceToMine(ctx) {
         const {idBot} = ctx.params
         ctx.body = await dbQueries.getChanceToMine(idBot)
     },
 
-    async editChanceToMine (ctx) {
+    async editChanceToMine(ctx) {
         const {idBot} = ctx.params
         const chanceToMine = ctx.request.body
         ctx.body = await dbQueries.editChanceToMine(idBot, chanceToMine)
@@ -56,7 +57,7 @@ module.exports = {
         let _cookie
         let saveTobase = false
 
-        await WeBot.login.loginSubmit(body, wkSession).then(({cookie}) => {
+        await WeBot.login.loginSubmit(body, wkSession).then(({cookie, $}) => {
             _cookie = cookie
             ctx.session.cookie = cookie
             ctx.body = {message: 'Auth success'}
@@ -66,11 +67,24 @@ module.exports = {
             ctx.body = {notify}
         })
 
-        if(!saveTobase) return
+        if (!saveTobase) return
+        const botInfo = new WeInfo({
+            wkSession: _cookie['_wk_session'],
+            rememberToken: _cookie['remember_token']
+        })
+        await botInfo.loadData('http://wekings.ru/game/user')
         await dbQueries.addBot({
             botName: body.username,
-            cookie:_cookie,
-            user:ctx.state.user
+            cookie: _cookie,
+            user: ctx.state.user,
+            info: {
+                level: botInfo.level,
+                healthy: botInfo.healthy,
+                silver: botInfo.silver,
+                crystal: botInfo.crystal,
+                gold: botInfo.gold,
+                fights: botInfo.fights,
+            }
         })
     }
 }

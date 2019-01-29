@@ -10,7 +10,7 @@ class Queries {
             .select('gifts').where({id: botId})
     }
 
-    static async editGifts( botId, gift) {
+    static async editGifts(botId, gift) {
         // console.log(await Bot.query());
         return await Bot.query()
             .update({gifts: JSON.stringify(gift)}).where({id: botId})
@@ -32,18 +32,20 @@ class Queries {
     }
 
     static async editChanceToMine(botId, chanceToMine) {
-        console.log(Bot.query());
+        console.log(Bot.query())
         return await Bot.query()
             .update({chance_to_mine: chanceToMine}).where({id: botId})
     }
 
-    static async addBot({cookie, user, botName}) {
+    static async addBot({cookie, user, botName, info}) {
+        console.log(info)
         await Bot.query()
             .insert({
                 name: botName,
                 userId: user.id,
                 wkSession: cookie['_wk_session'],
-                rememberToken: cookie['remember_token']
+                rememberToken: cookie['remember_token'],
+                ...info
             }).returning('*')
     }
 }
