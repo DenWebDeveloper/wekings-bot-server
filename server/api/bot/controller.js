@@ -8,18 +8,27 @@ module.exports = {
         ctx.body = await dbQueries.getBots(id)
     },
 
+    async getGiftsInfo(ctx) {
+      ctx.body = await dbQueries.getGiftsInfo()
+    },
+
     async getGifts(ctx) {
         const {idBot} = ctx.params
         ctx.body = await dbQueries.getGifts(idBot)
     },
 
     async editGifts(ctx) {
+        console.log(ctx.request.body);
         // const {id} = ctx.state.user
         const {idBot} = ctx.params
         // const id = 2;
         // const idBot = 1;
         const gifts = ctx.request.body
         ctx.body = await dbQueries.editGifts(idBot, gifts)
+    },
+
+    async getCursesInfo(ctx) {
+      ctx.body = await dbQueries.getCursesInfo()
     },
 
     async getCurses(ctx) {

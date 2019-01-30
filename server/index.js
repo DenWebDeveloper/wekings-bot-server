@@ -5,8 +5,8 @@ const serve = require('koa-static')
 const app = new Koa()
 const router = new Router()
 
-const routes = require('./modules')
-const staticRoutes = require('./modules/static')
+const routes = require('./api')
+const staticRoutes = require('./api/static')
 
 require('./database')
 require('./services/passport')

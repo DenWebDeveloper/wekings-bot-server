@@ -1,8 +1,14 @@
 const {Bot} = require('../../database/models')
+const {Gifts} = require('../../database/models')
+const {Curses} = require('../../database/models')
 
 class Queries {
     static async getBots(idUser) {
         return Bot.query().where({user_id: idUser})
+    }
+
+    static async getGiftsInfo() {
+        return await Gifts.query()
     }
 
     static async getGifts(botId) {
@@ -14,6 +20,10 @@ class Queries {
         // console.log(await Bot.query());
         return await Bot.query()
             .update({gifts: JSON.stringify(gift)}).where({id: botId})
+    }
+
+    static async getCursesInfo() {
+        return await Curses.query()
     }
 
     static async getCurses(botId) {

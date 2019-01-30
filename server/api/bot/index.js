@@ -17,4 +17,7 @@ router.put('/options/curses/:idBot', controller.editCurses)
 router.get('/options/mine/:idBot', controller.getChanceToMine)
 router.put('/options/mine/:idBot', controller.editChanceToMine)
 
+router.get('/options/gifts', controller.getGiftsInfo)
+router.get('/options/curses', controller.getCursesInfo)
+
 module.exports = router
