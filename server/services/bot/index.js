@@ -3,11 +3,7 @@ const rp = require('request-promise')
 const cheerio = require('cheerio')
 const Cookie = require('cookie')
 
-module.exports = {
-    login
-}
-
-class Bot {
+class WeBot {
     constructor({rememberToken, wkSession}) {
         this.wkSession = wkSession
         this.rememberToken = rememberToken
@@ -21,7 +17,8 @@ class Bot {
             resolveWithFullResponse: true,
             transform: this._requestTransform(),
             headers: {
-                'cookie': Cookie.serialize('_wk_session', this.wkSession)
+                'cookie': Cookie.serialize('_wk_session', this.wkSession) + '; ' +
+                    Cookie.serialize('remember_token', this.rememberToken)
             }
         }
         return this._ = await rp(options)
@@ -40,7 +37,7 @@ class Bot {
     }
 }
 
-class Info extends Bot {
+class WeInfo extends WeBot {
     constructor({rememberToken, wkSession}) {
         super({rememberToken, wkSession})
     }
@@ -62,15 +59,15 @@ class Info extends Bot {
     }
 
     get gold() {
-        return this._.$('#user_crystal_amount').text()
+        return this._.$('#user_gold_amount').text()
     }
 
-    get fightsCount() {
-        return this._.$('#remaining_fights_count').text()
+    get fights() {
+        return this._.$('#remaining_fights_count').text().split('/')[0]
     }
 }
 
-class WeGift extends Info {
+class WeGift extends WeInfo {
     constructor({rememberToken, wkSession}) {
         super({rememberToken, wkSession})
         this.type = 'gift'
@@ -118,4 +115,10 @@ class WeCurse extends WeGift {
         &icon=a_silver&key_part=9739&text=купить Отравленный пирог в количестве 1 за 3000
          серебра&url=/game/shop/dealers/curses/buy?item=${nameItem}&page=2&quantity=1`
     }
+}
+
+
+module.exports = {
+    login,
+    WeInfo: WeInfo
 }

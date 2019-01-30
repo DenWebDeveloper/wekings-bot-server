@@ -56,11 +56,11 @@ module.exports.loginSubmit = (body, wkSession) => {
         }).catch(err => {
             // успіх якщо сайт повернув 302
             // тому що він рекдиректить на аккаунт
-            const statusCode = err.response.statusCode
+            const {statusCode, $} = err.response
 
             if (statusCode === 302) {
                 const cookie = parseCookies(err.response.headers['set-cookie'])
-                return res({cookie,statusCode})
+                return res({cookie, statusCode, $})
             } else {
                 return rej({
                     notify: 'Неизвестная ошибка игрового сервера',

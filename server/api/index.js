@@ -6,7 +6,6 @@ const router = new Router({
 const admin = require('./admin')
 const bot = require('./bot')
 const publicRoutes = require('./public')
-const staticFiles = require('./static')
 
 router.use(publicRoutes.routes())
 router.use(admin.routes())

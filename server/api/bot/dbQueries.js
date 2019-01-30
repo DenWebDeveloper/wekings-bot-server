@@ -4,7 +4,20 @@ const {Curses} = require('../../database/models')
 
 class Queries {
     static async getBots(idUser) {
-        return Bot.query().where({user_id: idUser})
+        return await Bot.query().where({user_id: idUser})
+    }
+
+    static async getBot(id) {
+        return await Bot.query().findById(id)
+    }
+
+    static async deleteBot(id) {
+        return await Bot.query().deleteById(id)
+    }
+
+    static async editBot(id,data) {
+        return await Bot.query().findById(id)
+            .update(data).returning('*')
     }
 
     static async getGiftsInfo() {

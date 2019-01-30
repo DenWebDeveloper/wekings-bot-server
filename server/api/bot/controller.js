@@ -8,6 +8,31 @@ module.exports = {
         ctx.body = await dbQueries.getBots(id)
     },
 
+    async deleteBot(ctx) {
+        const {id} = ctx.valid.params
+        await dbQueries.deleteBot(id)
+        return ctx.status = 204
+    },
+
+    async syncAcc(ctx) {
+        const {id} = ctx.valid.params
+        const {wkSession, rememberToken} = await dbQueries.getBot(id)
+        console.log(wkSession, rememberToken)
+        const botInfo = new WeInfo({wkSession, rememberToken})
+
+        await botInfo.loadData('http://wekings.ru/game/user')
+        const bot = await dbQueries.editBot(id, {
+            level: botInfo.level,
+            healthy: botInfo.healthy,
+            silver: botInfo.silver,
+            crystal: botInfo.crystal,
+            gold: botInfo.gold,
+            fights: botInfo.fights,
+        })
+
+        return ctx.body = bot
+    },
+
     async getGiftsInfo(ctx) {
       ctx.body = await dbQueries.getGiftsInfo()
     },
