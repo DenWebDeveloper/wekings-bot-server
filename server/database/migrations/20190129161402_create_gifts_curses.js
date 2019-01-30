@@ -2,6 +2,7 @@
 exports.up = async knex => {
     await knex.schema.createTable('gifts', table => {
         table.increments().primary()
+        table.string('gift_name').notNullable()
         table.string('url_name').notNullable()
         table.integer('level').notNullable()
         table.integer('silver_price').notNullable()
@@ -11,6 +12,7 @@ exports.up = async knex => {
 
     await knex.schema.createTable('curses', table => {
         table.increments().primary()
+        table.string('curse_name').notNullable()
         table.string('url_name').notNullable()
         table.integer('level').notNullable()
         table.integer('silver_price').notNullable()
