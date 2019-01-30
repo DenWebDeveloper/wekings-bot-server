@@ -34,7 +34,8 @@ module.exports = {
     },
 
     async getGiftsInfo(ctx) {
-      ctx.body = await dbQueries.getGiftsInfo()
+        //відправляється масив
+        ctx.body = await dbQueries.getGiftsInfo()
     },
 
     async getGifts(ctx) {
@@ -43,7 +44,7 @@ module.exports = {
     },
 
     async editGifts(ctx) {
-        console.log(ctx.request.body);
+        console.log(ctx.request.body)
         // const {id} = ctx.state.user
         const {idBot} = ctx.params
         // const id = 2;
@@ -53,7 +54,7 @@ module.exports = {
     },
 
     async getCursesInfo(ctx) {
-      ctx.body = await dbQueries.getCursesInfo()
+        ctx.body = await dbQueries.getCursesInfo()
     },
 
     async getCurses(ctx) {
