@@ -1,6 +1,7 @@
 module.exports = {
     User: require('./User'),
     Bot: require('./Bot'),
-    Gifts: require('./Gifts'),
-    Curses: require('./Curses')
+    Gift: require('./Gift'),
+    Curse: require('./Curse'),
+    BotOptions: require('./BotOptions')
 }

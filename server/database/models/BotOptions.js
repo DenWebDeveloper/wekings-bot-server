@@ -2,7 +2,7 @@ const GlobalOptions = require('./GlobalOptions')
 
 class Bot extends GlobalOptions {
     static get tableName() {
-        return 'bots'
+        return 'bots_options'
     }
 }
 

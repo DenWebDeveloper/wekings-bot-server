@@ -1,9 +1,9 @@
 const {snakeCaseMappers} = require('objection')
 const GlobalOptions = require('./GlobalOptions')
 
-class Curses extends GlobalOptions {
+class Gift extends GlobalOptions {
     static get tableName() {
-        return 'curses'
+        return 'gifts'
     }
 
     static get columnNameMappers() {
@@ -11,4 +11,4 @@ class Curses extends GlobalOptions {
     }
 }
 
-module.exports = Curses
+module.exports = Gift
